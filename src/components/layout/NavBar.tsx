@@ -42,27 +42,18 @@ export const NavBar: React.FC = () => {
       ];
     }
 
-    // For Person accounts
-    switch (user.role) {
-      case 'JobSeeker':
-        return [{ path: '/jobs', label: 'Find Jobs' }];
+    // For Person accounts - derive links from isHiring/isLookingForJob flags
+    const links: { path: string; label: string }[] = [];
 
-      case 'Hiring':
-        return [
-          { path: '/jobs/new', label: 'Post Job' },
-          { path: '/my-jobs', label: 'My Jobs' }
-        ];
-
-      case 'Both':
-        return [
-          { path: '/jobs', label: 'Find Jobs' },
-          { path: '/jobs/new', label: 'Post Job' },
-          { path: '/my-jobs', label: 'My Jobs' }
-        ];
-
-      default:
-        return [];
+    if (user.isLookingForJob) {
+      links.push({ path: '/jobs', label: 'Find Jobs' });
     }
+    if (user.isHiring) {
+      links.push({ path: '/jobs/new', label: 'Post Job' });
+      links.push({ path: '/my-jobs', label: 'My Jobs' });
+    }
+
+    return links;
   };
 
   const navLinks = getNavLinks();

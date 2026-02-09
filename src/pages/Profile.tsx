@@ -7,11 +7,6 @@ import { Button } from '../components/common/Button';
 import { AvailabilityDisplay } from '../components/profile/AvailabilityDisplay';
 import { InstagramEmbed } from '../components/profile/InstagramEmbed';
 import { Mail, Briefcase, MapPin, Calendar, DollarSign, Link as LinkIcon, UserSearch, Sparkles } from 'lucide-react';
-import {
-  mockJobSeekerProfiles,
-  mockHiringProfiles,
-  mockOrganizationProfiles
-} from '../data/mockUsers';
 
 /**
  * Profile Page - displays user profile based on account type
@@ -23,7 +18,7 @@ import {
  * - Organization: Company details, job posts
  */
 export const Profile: React.FC = () => {
-  const { user } = useAuthStore();
+  const { user, jobSeekerProfile, hiringProfile, organizationProfile } = useAuthStore();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<'jobseeker' | 'hiring'>('jobseeker');
 
@@ -35,10 +30,7 @@ export const Profile: React.FC = () => {
     );
   }
 
-  // Get profile data from mock data
-  const jobSeekerProfile = mockJobSeekerProfiles[user.id];
-  const hiringProfile = mockHiringProfiles[user.id];
-  const orgProfile = mockOrganizationProfiles[user.id];
+  const orgProfile = organizationProfile;
 
   const showTabs = user.accountType === 'Person' && user.isHiring && user.isLookingForJob;
 

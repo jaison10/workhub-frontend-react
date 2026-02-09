@@ -13,11 +13,8 @@ import { Button } from '../components/common/Button';
 export const MyJobs: React.FC = () => {
   const { user } = useAuthStore();
 
-  const isJobSeeker = user?.role === 'JobSeeker';
-  const isHiring =
-    user?.role === 'Hiring' ||
-    user?.role === 'Both' ||
-    user?.accountType === 'Organization';
+  const isJobSeeker = user?.isLookingForJob;
+  const isHiring = user?.isHiring || user?.accountType === 'Organization';
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -68,8 +65,8 @@ export const MyJobs: React.FC = () => {
           </div>
         )}
 
-        {/* Mock Job Posts for Users with "Both" role */}
-        {user?.role === 'Both' && (
+        {/* Mock Job Posts for Users with both hiring and looking for job */}
+        {user?.isHiring && user?.isLookingForJob && (
           <div className="mt-6 grid md:grid-cols-2 gap-6">
             <div className="bg-white rounded-lg shadow-md p-6">
               <div className="flex justify-between items-start mb-4">

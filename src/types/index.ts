@@ -1,6 +1,9 @@
 // User account types
 export type AccountType = 'Person' | 'Organization';
 
+// User role derived from isHiring + isLookingForJob
+export type UserRole = 'JobSeeker' | 'Hiring' | 'Both';
+
 // Job related types
 export type JobType = 'Full-time' | 'Part-time' | 'Internship' | 'Gig';
 export type WorkMode = 'On-site' | 'Remote' | 'Hybrid';
@@ -99,6 +102,15 @@ export interface Job {
   skillsRequired: string[];
   postedDate: string;
   status: 'Active' | 'Closed' | 'Draft';
+}
+
+// Utility to derive user role from flags
+export function getUserRole(user: User): UserRole | null {
+  if (user.accountType === 'Organization') return null;
+  if (user.isHiring && user.isLookingForJob) return 'Both';
+  if (user.isHiring) return 'Hiring';
+  if (user.isLookingForJob) return 'JobSeeker';
+  return null;
 }
 
 // Job Application Interface

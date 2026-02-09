@@ -25,7 +25,7 @@ import { mockUsers } from '../data/mockUsers';
  */
 export const Login: React.FC = () => {
   const navigate = useNavigate();
-  const { setUser } = useAuthStore();
+  const { login } = useAuthStore();
   const [error, setError] = useState('');
 
   const formik = useFormik({
@@ -48,8 +48,8 @@ export const Login: React.FC = () => {
       );
 
       if (user && values.password === 'password123') {
-        setUser(user);
-        navigate('/jobs');
+        login(user);
+        navigate('/');
       } else {
         setError('Invalid email or password');
       }
@@ -60,8 +60,8 @@ export const Login: React.FC = () => {
     // Use first job seeker as guest
     const guestUser = mockUsers.find(u => u.isLookingForJob);
     if (guestUser) {
-      setUser(guestUser);
-      navigate('/jobs');
+      login(guestUser);
+      navigate('/');
     }
   };
 

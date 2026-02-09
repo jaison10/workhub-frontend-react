@@ -83,6 +83,21 @@ export const mockUsers: User[] = [
       portfolio: 'https://emmawilson.design'
     },
     createdAt: '2025-09-28'
+  },
+  {
+    id: 'user-5',
+    email: 'alex@example.com',
+    name: 'Alex Chen',
+    accountType: 'Person',
+    isLookingForJob: true,
+    isHiring: false,
+    bio: 'Data analyst with strong SQL and Python skills looking for part-time opportunities.',
+    designation: 'Data Analyst',
+    skills: ['SQL', 'Python', 'Tableau', 'Excel', 'Data Visualization'],
+    socialLinks: {
+      linkedin: 'https://linkedin.com/in/alexchen'
+    },
+    createdAt: '2025-10-01'
   }
 ];
 

@@ -4,19 +4,32 @@ import { motion } from 'framer-motion';
 import { Search, Briefcase, Users, Zap } from 'lucide-react';
 import { Button } from '../components/common/Button';
 import { useAuthStore } from '../store/useAuthStore';
+import { DualRoleLanding } from '../components/landing/DualRoleLanding';
 
 /**
- * Landing Page - Hero section with CTA and "How it works"
+ * Landing Page
  *
- * Features:
- * - Hero with gradient background
- * - CTA buttons (Find Jobs / Post a Job)
- * - "How It Works" section with 3 steps
- * - Responsive grid layout
+ * Renders different views based on auth state:
+ * - Dual-role users (isHiring + isLookingForJob): Personalized dual-panel UI
+ * - Everyone else: Public hero section with CTAs
  */
 export const Landing: React.FC = () => {
-  const navigate = useNavigate();
   const { isAuthenticated, user } = useAuthStore();
+
+  // Dual-role: both hiring and looking for job
+  if (isAuthenticated && user?.isHiring && user?.isLookingForJob) {
+    return <DualRoleLanding user={user} />;
+  }
+
+  return <PublicLanding />;
+};
+
+/**
+ * Public Landing - Hero section with CTA and "How it works"
+ */
+const PublicLanding: React.FC = () => {
+  const navigate = useNavigate();
+  const { isAuthenticated } = useAuthStore();
 
   const handleFindJobs = () => {
     if (isAuthenticated) {
