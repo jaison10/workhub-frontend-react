@@ -6,7 +6,7 @@ import { Badge } from '../components/common/Badge';
 import { Button } from '../components/common/Button';
 import { AvailabilityDisplay } from '../components/profile/AvailabilityDisplay';
 import { InstagramEmbed } from '../components/profile/InstagramEmbed';
-import { Mail, Briefcase, MapPin, Calendar, DollarSign, Link as LinkIcon, UserSearch, Sparkles } from 'lucide-react';
+import { Mail, Briefcase, Calendar, DollarSign, Link as LinkIcon, UserSearch } from 'lucide-react';
 
 /**
  * Profile Page - displays user profile based on account type
