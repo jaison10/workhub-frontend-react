@@ -123,3 +123,29 @@ export interface JobApplication {
   status: 'Applied' | 'Reviewed' | 'Shortlisted' | 'Rejected' | 'Hired';
   coverLetter?: string;
 }
+
+// Notification types
+export type NotificationType =
+  | 'JobRequestReceived'
+  | 'JobRequestAccepted'
+  | 'JobRequestDeclined'
+  | 'JobApplicationReceived';
+
+export interface Notification {
+  id: string;
+  userId: string;
+  type: NotificationType;
+  title: string;
+  message: string;
+  referenceId?: string;
+  referenceType?: string;
+  isRead: boolean;
+  createdAt: string;
+}
+
+export interface PaginatedNotifications {
+  items: Notification[];
+  totalCount: number;
+  page: number;
+  pageSize: number;
+}

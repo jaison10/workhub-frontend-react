@@ -1,12 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useNotificationStore } from '../../store/useNotificationStore';
-import { useAuthStore } from '../../store/useAuthStore';
 import { NotificationItem } from './NotificationItem';
 import { markNotificationAsRead, markAllNotificationsAsRead, fetchNotifications } from '../../services/notificationApi';
 
 export const NotificationDropdown: React.FC = () => {
-  const { token } = useAuthStore();
   const {
     notifications,
     hasMore,
@@ -20,31 +18,29 @@ export const NotificationDropdown: React.FC = () => {
   } = useNotificationStore();
 
   const handleMarkAsRead = async (id: string) => {
-    if (!token) return;
     markAsRead(id);
     try {
-      await markNotificationAsRead(token, id);
+      await markNotificationAsRead(id);
     } catch {
       // Already updated locally
     }
   };
 
   const handleMarkAllAsRead = async () => {
-    if (!token) return;
     markAllAsRead();
     try {
-      await markAllNotificationsAsRead(token);
+      await markAllNotificationsAsRead();
     } catch {
       // Already updated locally
     }
   };
 
   const handleLoadMore = async () => {
-    if (!token || isLoading || !hasMore) return;
+    if (isLoading || !hasMore) return;
     setLoading(true);
     try {
       const nextPage = page + 1;
-      const data = await fetchNotifications(token, nextPage);
+      const data = await fetchNotifications(nextPage);
       appendNotifications(data.items, nextPage * 20 < data.totalCount);
       incrementPage();
     } catch {

@@ -6,7 +6,7 @@ import { signalRService } from '../services/signalRService';
 import { fetchNotifications, fetchUnreadCount } from '../services/notificationApi';
 
 export function useNotificationConnection() {
-  const { isAuthenticated, token } = useAuthStore();
+  const { isAuthenticated } = useAuthStore();
   const {
     setNotifications,
     addNotification,
@@ -19,7 +19,7 @@ export function useNotificationConnection() {
   const connectedRef = useRef(false);
 
   useEffect(() => {
-    if (!isAuthenticated || !token) {
+    if (!isAuthenticated) {
       if (connectedRef.current) {
         signalRService.stop();
         reset();
@@ -32,7 +32,7 @@ export function useNotificationConnection() {
       try {
         setLoading(true);
 
-        signalRService.buildConnection(token);
+        signalRService.buildConnection();
 
         signalRService.onReceiveNotification((notification) => {
           addNotification(notification);
@@ -50,9 +50,9 @@ export function useNotificationConnection() {
         signalRService.onReconnected(async () => {
           setConnected(true);
           try {
-            const countData = await fetchUnreadCount(token);
+            const countData = await fetchUnreadCount();
             setUnreadCount(countData.count);
-            const data = await fetchNotifications(token, 1);
+            const data = await fetchNotifications(1);
             setNotifications(data.items);
           } catch {
             // Silently handle re-fetch errors on reconnect
@@ -69,8 +69,8 @@ export function useNotificationConnection() {
         connectedRef.current = true;
 
         const [countData, notifData] = await Promise.all([
-          fetchUnreadCount(token),
-          fetchNotifications(token, 1),
+          fetchUnreadCount(),
+          fetchNotifications(1),
         ]);
         setUnreadCount(countData.count);
         setNotifications(notifData.items);
@@ -87,5 +87,5 @@ export function useNotificationConnection() {
       signalRService.stop();
       connectedRef.current = false;
     };
-  }, [isAuthenticated, token]);
+  }, [isAuthenticated]);
 }
