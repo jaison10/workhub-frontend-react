@@ -8,7 +8,7 @@ import { Avatar } from '../common/Avatar';
 
 interface CandidateCardProps {
   candidate: CandidateData;
-  onAction: (action: string, candidateName: string) => void;
+  onAction: (action: string, candidateName: string, candidateId: string) => void;
 }
 
 export const CandidateCard: React.FC<CandidateCardProps> = ({ candidate, onAction }) => {
@@ -102,21 +102,21 @@ export const CandidateCard: React.FC<CandidateCardProps> = ({ candidate, onActio
       <div className="mt-auto pt-3 border-t border-gray-200">
         <div className="flex justify-center gap-2">
           <button
-            onClick={(e) => { e.stopPropagation(); onAction('request', user.name); }}
+            onClick={(e) => { e.stopPropagation(); onAction('request', user.name, user.id); }}
             title="Send Request"
             className="p-2.5 rounded-lg bg-orange-100 text-orange-600 hover:bg-orange-200 transition-colors"
           >
             <UserPlus size={18} />
           </button>
           <button
-            onClick={(e) => { e.stopPropagation(); onAction('invite', user.name); }}
+            onClick={(e) => { e.stopPropagation(); onAction('invite', user.name, user.id); }}
             title="Send Job Invite"
             className="p-2.5 rounded-lg bg-blue-100 text-blue-600 hover:bg-blue-200 transition-colors"
           >
             <Send size={18} />
           </button>
           <button
-            onClick={(e) => { e.stopPropagation(); onAction('message', user.name); }}
+            onClick={(e) => { e.stopPropagation(); onAction('message', user.name, user.id); }}
             title="Message"
             className="p-2.5 rounded-lg bg-green-100 text-green-600 hover:bg-green-200 transition-colors"
           >

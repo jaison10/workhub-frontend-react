@@ -56,6 +56,7 @@ export interface HiringProfile {
   companyHiringFor?: string;
   positionsHiring: string[];
   locationHiringFor: string;
+  desiredSkills: string[];
   activeJobPostsCount: number;
 }
 
@@ -148,4 +149,32 @@ export interface PaginatedNotifications {
   totalCount: number;
   page: number;
   pageSize: number;
+}
+
+// Job Request / Connect types
+export type JobRequestWorkType = 'FullTime' | 'Freelance';
+
+export interface CreateJobRequestPayload {
+  targetUserId: string;
+  linkedJobId?: string;
+  workType: JobRequestWorkType;
+  freelanceHours?: number;
+  offeredRate: number;
+  rateCurrency: string;
+  message?: string;
+}
+
+export interface JobRequestDto {
+  id: string;
+  requesterId: string;
+  targetUserId: string;
+  linkedJobId?: string;
+  workType: JobRequestWorkType;
+  freelanceHours?: number;
+  offeredRate: number;
+  rateCurrency: string;
+  message?: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
 }

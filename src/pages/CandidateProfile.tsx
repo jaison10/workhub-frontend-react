@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Mail, Briefcase, DollarSign, Calendar, UserPlus, Send, MessageSquare, Link as LinkIcon } from 'lucide-react';
 import { Avatar } from '../components/common/Avatar';
@@ -9,11 +9,13 @@ import { InstagramEmbed } from '../components/profile/InstagramEmbed';
 import { Toast } from '../components/common/Toast';
 import { useToast } from '../hooks/useToast';
 import { allCandidates } from '../data/mockCandidates';
+import { JobInviteModal } from '../components/connect/JobInviteModal';
 
 export const CandidateProfile: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { toast, showToast, dismissToast } = useToast();
+  const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
 
   const candidate = allCandidates.find(c => c.user.id === id);
 
@@ -85,7 +87,7 @@ export const CandidateProfile: React.FC = () => {
                 </Button>
                 <Button
                   variant="outline"
-                  onClick={() => showToast(`Job invite sent to ${user.name}`, 'info')}
+                  onClick={() => setIsInviteModalOpen(true)}
                 >
                   <Send size={16} className="mr-2" />
                   Send Job Invite
@@ -247,6 +249,13 @@ export const CandidateProfile: React.FC = () => {
           <InstagramEmbed username={user.socialLinks.instagram} />
         )}
       </div>
+
+      <JobInviteModal
+        isOpen={isInviteModalOpen}
+        onClose={() => setIsInviteModalOpen(false)}
+        candidateId={user.id}
+        candidateName={user.name}
+      />
 
       <Toast toast={toast} onDismiss={dismissToast} />
     </div>

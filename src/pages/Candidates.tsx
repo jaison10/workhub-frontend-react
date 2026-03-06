@@ -9,6 +9,7 @@ import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
 import { useToast } from '../hooks/useToast';
 import { useAuthStore } from '../store/useAuthStore';
 import { allCandidates } from '../data/mockCandidates';
+import { JobInviteModal } from '../components/connect/JobInviteModal';
 import type { JobType, WorkMode, DayOfWeek } from '../types/index';
 
 const BATCH_SIZE = 6;
@@ -31,6 +32,9 @@ export const Candidates: React.FC = () => {
   const [sortBy, setSortBy] = useState<SortOption>('relevance');
   const [showAllFilters, setShowAllFilters] = useState(false);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
+
+  // Job invite modal state
+  const [inviteTarget, setInviteTarget] = useState<{ id: string; name: string } | null>(null);
 
   // Advanced filters
   const [selectedDays, setSelectedDays] = useState<DayOfWeek[]>([]);
@@ -171,13 +175,13 @@ export const Candidates: React.FC = () => {
   const hasActiveFilters = searchQuery || selectedJobType || selectedWorkMode ||
     sortBy !== 'relevance' || selectedDays.length > 0 || payRangeMin || payRangeMax || filterSkills.length > 0;
 
-  const handleAction = (action: string, candidateName: string) => {
+  const handleAction = (action: string, candidateName: string, candidateId: string) => {
     switch (action) {
       case 'request':
         showToast(`Connection request sent to ${candidateName}`, 'success');
         break;
       case 'invite':
-        showToast(`Job invite sent to ${candidateName}`, 'info');
+        setInviteTarget({ id: candidateId, name: candidateName });
         break;
       case 'message':
         showToast(`Opening chat with ${candidateName}`, 'info');
@@ -391,6 +395,15 @@ export const Candidates: React.FC = () => {
         {/* Sentinel for infinite scroll */}
         <div ref={sentinelRef} className="h-1" />
       </div>
+
+      {inviteTarget && (
+        <JobInviteModal
+          isOpen={!!inviteTarget}
+          onClose={() => setInviteTarget(null)}
+          candidateId={inviteTarget.id}
+          candidateName={inviteTarget.name}
+        />
+      )}
 
       <Toast toast={toast} onDismiss={dismissToast} />
     </div>
