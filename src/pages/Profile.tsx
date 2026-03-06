@@ -6,7 +6,7 @@ import { Badge } from '../components/common/Badge';
 import { Button } from '../components/common/Button';
 import { AvailabilityDisplay } from '../components/profile/AvailabilityDisplay';
 import { InstagramEmbed } from '../components/profile/InstagramEmbed';
-import { Mail, Briefcase, MapPin, Calendar, DollarSign, Link as LinkIcon, UserSearch, Sparkles } from 'lucide-react';
+import { Mail, Briefcase, Calendar, DollarSign, Link as LinkIcon, UserSearch } from 'lucide-react';
 
 /**
  * Profile Page - displays user profile based on account type
@@ -348,6 +348,17 @@ export const Profile: React.FC = () => {
                   ))}
                 </div>
               </div>
+
+              {hiringProfile.desiredSkills && hiringProfile.desiredSkills.length > 0 && (
+                <div>
+                  <p className="text-sm text-gray-500 mb-2">Skills Looking For</p>
+                  <div className="flex flex-wrap gap-2">
+                    {hiringProfile.desiredSkills.map((skill, index) => (
+                      <Badge key={index} variant="green">{skill}</Badge>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               <div className="grid md:grid-cols-2 gap-4">
                 <div>

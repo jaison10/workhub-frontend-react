@@ -1,5 +1,4 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { MapPin, Clock, Briefcase, DollarSign } from 'lucide-react';
 import type { Job } from '../../types/index';
 import { Card } from '../common/Card';
@@ -20,8 +19,6 @@ interface JobCardProps {
  * - Apply button (navigates to job details or applies directly)
  */
 export const JobCard: React.FC<JobCardProps> = ({ job }) => {
-  const navigate = useNavigate();
-
   const getBadgeVariant = (jobType: string) => {
     switch (jobType) {
       case 'Full-time':

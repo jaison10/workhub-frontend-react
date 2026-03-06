@@ -24,6 +24,7 @@ interface AuthState {
  * Zustand store for authentication and user profile state
  * - Persists user data + profiles to localStorage
  * - login() loads matching profiles from mock data
+ * - JWT is stored in an httpOnly cookie (not accessible to JavaScript)
  * - Accessible from any component using: const { user, login, logout } = useAuthStore()
  */
 export const useAuthStore = create<AuthState>()(

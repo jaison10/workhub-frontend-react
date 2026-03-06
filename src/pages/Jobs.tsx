@@ -1,7 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Search, Filter } from 'lucide-react';
 import { JobCard } from '../components/job/JobCard';
-import { Input } from '../components/common/Input';
 import { Select } from '../components/common/Select';
 import { mockJobs } from '../data/mockJobs';
 import type { JobType, WorkMode } from '../types/index';

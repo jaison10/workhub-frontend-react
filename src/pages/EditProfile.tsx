@@ -42,7 +42,7 @@ const POSITION_SUGGESTIONS = [
  */
 export const EditProfile: React.FC = () => {
   const navigate = useNavigate();
-  const { user } = useAuthStore();
+  const { user, hiringProfile } = useAuthStore();
 
   // Role state - initialize from user
   const [isLookingForJob, setIsLookingForJob] = useState(user?.isLookingForJob || false);
@@ -79,9 +79,10 @@ export const EditProfile: React.FC = () => {
       payMax: '',
       currency: 'USD',
       // Hiring specific fields
-      companyHiringFor: '',
-      positionsHiring: [] as string[],
-      locationHiringFor: ''
+      companyHiringFor: hiringProfile?.companyHiringFor || '',
+      positionsHiring: hiringProfile?.positionsHiring || ([] as string[]),
+      locationHiringFor: hiringProfile?.locationHiringFor || '',
+      desiredSkills: hiringProfile?.desiredSkills || ([] as string[])
     },
     validationSchema: Yup.object({
       name: Yup.string().required('Name is required'),
@@ -510,6 +511,14 @@ export const EditProfile: React.FC = () => {
                     onChange={formik.handleChange}
                     placeholder="e.g., San Francisco, CA or Remote"
                     helperText="Where the positions are located"
+                  />
+
+                  <TagInput
+                    label="Skills Looking For"
+                    value={formik.values.desiredSkills}
+                    onChange={(skills) => formik.setFieldValue('desiredSkills', skills)}
+                    placeholder="Type a desired skill and press Enter"
+                    suggestions={SKILL_SUGGESTIONS}
                   />
                 </div>
               </div>

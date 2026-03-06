@@ -56,6 +56,7 @@ export interface HiringProfile {
   companyHiringFor?: string;
   positionsHiring: string[];
   locationHiringFor: string;
+  desiredSkills: string[];
   activeJobPostsCount: number;
 }
 
@@ -122,4 +123,58 @@ export interface JobApplication {
   applicationDate: string;
   status: 'Applied' | 'Reviewed' | 'Shortlisted' | 'Rejected' | 'Hired';
   coverLetter?: string;
+}
+
+// Notification types
+export type NotificationType =
+  | 'JobRequestReceived'
+  | 'JobRequestAccepted'
+  | 'JobRequestDeclined'
+  | 'JobApplicationReceived';
+
+export interface Notification {
+  id: string;
+  userId: string;
+  type: NotificationType;
+  title: string;
+  message: string;
+  referenceId?: string;
+  referenceType?: string;
+  isRead: boolean;
+  createdAt: string;
+}
+
+export interface PaginatedNotifications {
+  items: Notification[];
+  totalCount: number;
+  page: number;
+  pageSize: number;
+}
+
+// Job Request / Connect types
+export type JobRequestWorkType = 'FullTime' | 'Freelance';
+
+export interface CreateJobRequestPayload {
+  targetUserId: string;
+  linkedJobId?: string;
+  workType: JobRequestWorkType;
+  freelanceHours?: number;
+  offeredRate: number;
+  rateCurrency: string;
+  message?: string;
+}
+
+export interface JobRequestDto {
+  id: string;
+  requesterId: string;
+  targetUserId: string;
+  linkedJobId?: string;
+  workType: JobRequestWorkType;
+  freelanceHours?: number;
+  offeredRate: number;
+  rateCurrency: string;
+  message?: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
 }

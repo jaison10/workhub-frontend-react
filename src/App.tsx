@@ -10,7 +10,12 @@ import { EditProfile } from './pages/EditProfile';
 import { Jobs } from './pages/Jobs';
 import { JobPost } from './pages/JobPost';
 import { MyJobs } from './pages/MyJobs';
+import { Candidates } from './pages/Candidates';
+import { CandidateProfile } from './pages/CandidateProfile';
 import { useAuthStore } from './store/useAuthStore';
+import { useNotificationConnection } from './hooks/useNotificationConnection';
+import { useToastStore } from './store/useToastStore';
+import { Toast } from './components/common/Toast';
 
 /**
  * App Component - Main application with routing
@@ -34,8 +39,18 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) =
   return isAuthenticated ? <>{children}</> : <Navigate to="/login" replace />;
 };
 
+// Hiring Route wrapper - only accessible to hiring users and organizations
+const HiringRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { user, isAuthenticated } = useAuthStore();
+  if (!isAuthenticated) return <Navigate to="/login" replace />;
+  if (user && (user.isHiring || user.accountType === 'Organization')) return <>{children}</>;
+  return <Navigate to="/" replace />;
+};
+
 function App() {
   const { isAuthenticated } = useAuthStore();
+  const { toast, dismissToast } = useToastStore();
+  useNotificationConnection();
 
   return (
     <Router>
@@ -100,9 +115,29 @@ function App() {
           }
         />
 
+        <Route
+          path="/candidates"
+          element={
+            <HiringRoute>
+              <Candidates />
+            </HiringRoute>
+          }
+        />
+        <Route
+          path="/candidates/:id"
+          element={
+            <HiringRoute>
+              <CandidateProfile />
+            </HiringRoute>
+          }
+        />
+
         {/* 404 Fallback */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+
+      {/* Global Toast */}
+      <Toast toast={toast} onDismiss={dismissToast} />
     </Router>
   );
 }

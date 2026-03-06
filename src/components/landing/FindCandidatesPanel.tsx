@@ -55,7 +55,7 @@ export const FindCandidatesPanel: React.FC<FindCandidatesPanelProps> = ({ candid
 
         {/* CTA Button */}
         <button
-          onClick={() => navigate('/jobs')}
+          onClick={() => navigate('/candidates')}
           className="flex items-center gap-2 mx-auto px-6 py-2.5 bg-orange-500 text-white text-sm font-semibold rounded-full hover:bg-orange-600 transition-colors"
         >
           View All Candidates

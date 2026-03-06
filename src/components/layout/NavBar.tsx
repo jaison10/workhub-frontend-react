@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Menu, X, Briefcase, LogOut, User, Settings } from 'lucide-react';
+import { Menu, X, Briefcase, LogOut, User } from 'lucide-react';
 import { useAuthStore } from '../../store/useAuthStore';
 import { Avatar } from '../common/Avatar';
+import { NotificationBell } from '../notification/NotificationBell';
 import { motion, AnimatePresence } from 'framer-motion';
 
 /**
@@ -37,6 +38,7 @@ export const NavBar: React.FC = () => {
 
     if (user.accountType === 'Organization') {
       return [
+        { path: '/candidates', label: 'Find Candidates' },
         { path: '/jobs/new', label: 'Post Job' },
         { path: '/my-jobs', label: 'My Jobs' }
       ];
@@ -49,6 +51,7 @@ export const NavBar: React.FC = () => {
       links.push({ path: '/jobs', label: 'Find Jobs' });
     }
     if (user.isHiring) {
+      links.push({ path: '/candidates', label: 'Find Candidates' });
       links.push({ path: '/jobs/new', label: 'Post Job' });
       links.push({ path: '/my-jobs', label: 'My Jobs' });
     }
@@ -91,6 +94,9 @@ export const NavBar: React.FC = () => {
                 </Link>
               ))}
 
+              {/* Notification Bell */}
+              <NotificationBell />
+
               {/* Profile Dropdown */}
               <div className="relative">
                 <button
@@ -98,8 +104,8 @@ export const NavBar: React.FC = () => {
                   className="flex items-center space-x-2 focus:outline-none"
                 >
                   <Avatar
-                    src={user.profilePhotoUrl}
-                    fallbackText={user.name}
+                    src={user?.profilePhotoUrl}
+                    fallbackText={user?.name ?? ''}
                     size="sm"
                   />
                 </button>
@@ -115,9 +121,9 @@ export const NavBar: React.FC = () => {
                     >
                       <div className="px-4 py-2 border-b border-gray-200">
                         <p className="text-sm font-medium text-gray-900">
-                          {user.name}
+                          {user?.name}
                         </p>
-                        <p className="text-xs text-gray-500">{user.email}</p>
+                        <p className="text-xs text-gray-500">{user?.email}</p>
                       </div>
 
                       <Link
@@ -198,6 +204,9 @@ export const NavBar: React.FC = () => {
                       {link.label}
                     </Link>
                   ))}
+                  <div className="px-4 py-2">
+                    <NotificationBell />
+                  </div>
                   <Link
                     to="/profile"
                     onClick={() => setMobileMenuOpen(false)}

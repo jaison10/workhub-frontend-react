@@ -162,6 +162,7 @@ export const mockHiringProfiles: Record<string, HiringProfile> = {
     companyHiringFor: 'TechCorp Solutions',
     positionsHiring: ['Frontend Developer', 'Backend Developer', 'UI Designer'],
     locationHiringFor: 'San Francisco, CA',
+    desiredSkills: ['React', 'TypeScript', 'Node.js', 'Figma'],
     activeJobPostsCount: 2
   },
   'user-3': {
@@ -169,6 +170,7 @@ export const mockHiringProfiles: Record<string, HiringProfile> = {
     companyHiringFor: 'StartupXYZ',
     positionsHiring: ['Python Developer', 'DevOps Engineer', 'Full Stack Developer', 'Cloud Architect'],
     locationHiringFor: 'Austin, TX (Remote Available)',
+    desiredSkills: ['Python', 'AWS', 'Docker', 'Kubernetes', 'Terraform'],
     activeJobPostsCount: 3
   }
 };
